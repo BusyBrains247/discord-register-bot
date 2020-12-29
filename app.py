@@ -92,7 +92,7 @@ async def on_message(message):
             else:
                 await bot_message.delete()
                 add_value(datas, username)
-                role = get(message.author.guild.roles, name="Üye")
+                role = get(message.author.guild.roles, name="Geliştirici Adayı")
                 await message.author.add_roles(role)
                 await channel.send(f'{message.author.mention} Kayıt başarılı!', delete_after=15)
 
