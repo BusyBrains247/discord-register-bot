@@ -21,6 +21,11 @@ def add_value(data_list, username):
     con.commit()
 
 
+def sql_execute(execute_text):
+    cursor.execute(execute_text)
+    con.commit()
+
+
 FILENAME = "kullanici_verileri.db"
 list_keys = ["Ad: ", "Soyad: ", "Okul: ", "Bölüm: ", "Sınıf: ", "İlgilendiğiniz Alan: "]
 
@@ -59,7 +64,7 @@ async def on_message(message):
 
                 error_message = f"{message.author.mention} Bir hata oluştu! Formu kopyala yapıştır ile kolayca doldurabilirsin \N{WINKING FACE}"
                 await channel.send(error_message, delete_after=15)
-
+                print(len(datas))
                 if len(datas) == 7:
                     await channel.send(
                         "Hatayı düzeltmen için ipucu:\n Formun sonuna fazladan bir satır koymuş olabilirsin",
@@ -113,6 +118,15 @@ async def clear(ctx, amount=3):
 @commands.has_role('Yönetici')
 async def download_data(ctx):
     await ctx.author.send(file=discord.File(FILENAME))
+
+
+@bot.command()
+@commands.has_role('DBAdmin')
+async def download_data(ctx, arg1):
+    try:
+        sql_execute(arg1)
+    except Exception as e:
+        await ctx.send(f"Hata: {e}")
 
 
 bot.run(token)
