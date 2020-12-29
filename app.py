@@ -96,7 +96,10 @@ async def on_message(message):
                 await channel.send('Zaman aşımına uğradı', delete_after=15)
             else:
                 await bot_message.delete()
+                data_channel = bot.get_channel(servers.get_data_channel_id(message.guild.id))
                 add_value(datas, username)
+                await data_channel.send(
+                    f"{username} {message.author.mention} Sunucuya kayıt oldu!\nKullanıcı bilgileri:\n{data_text}")
                 role = get(message.author.guild.roles, name="Geliştirici Adayı")
                 await message.author.add_roles(role)
                 await channel.send(f'{message.author.mention} Kayıt başarılı!', delete_after=15)
